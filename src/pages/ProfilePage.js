@@ -27,6 +27,10 @@ const ProfilePage = () => {
     counsellorsEmail,
     counsellorsImage,
     counsellorsName,
+    counsellorsPhoneNumber,
+    counsellorsQualification,
+    counsellorsTimeFrom,
+    counsellorsTimeTo,
     type,
     setEditProfileTrue,
     id,
@@ -169,6 +173,23 @@ const ProfilePage = () => {
             name="User Email"
             value={isCounselor ? counsellorsEmail : counseleeEmail}
           />
+          {isCounselor && (
+            <>
+              <Row
+                name="Phone Number"
+                value={isCounselor && counsellorsPhoneNumber}
+              />
+              <Row
+                name="Qualification"
+                value={isCounselor && counsellorsQualification}
+              />
+              <Row
+                name="Time From"
+                value={isCounselor && counsellorsTimeFrom}
+              />
+              <Row name="Time To" value={isCounselor && counsellorsTimeTo} />
+            </>
+          )}
         </div>
         <div
           className="profile-info "
