@@ -36,6 +36,13 @@ const Auth = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, isMember, type, createdAt } = values;
+    // console.log(name);
+    const numbers = /^[0-9]+$/;
+    if (name.match(numbers)) {
+      setTimeout(() => handleError(""), 1000);
+      return handleError("Please don't enter number in user name");
+    }
+    // alert();
 
     let roleType;
     if (type === "Counselee") {

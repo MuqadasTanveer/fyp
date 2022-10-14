@@ -48,6 +48,8 @@ const initialState = {
   isProfileEdit: false,
   appointmentDelId: "",
   paymentDone: false,
+  age: "",
+  gender: "",
 };
 const AppContext = createContext(initialState);
 const reducer = (state, { type, payload }) => {

@@ -114,8 +114,8 @@ const AppointmentDetailCard = ({
         <div className="mx-2">
           <h6>
             {isCounselor
-              ? fetchedAppoitmentDetail.counseleeName
-              : fetchedAppoitmentDetail.name}
+              ? fetchedAppoitmentDetail?.counseleeName
+              : fetchedAppoitmentDetail?.name}
           </h6>
           <h6>{date}</h6>
           {!isCounselor && (

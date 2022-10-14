@@ -24,6 +24,9 @@ const AppointmentForm = () => {
     error,
     isAppointmentEdit,
     appointmentEditHandle,
+    age,
+    gender,
+    phoneNumber,
   } = useAppContext();
 
   useEffect(() => {
@@ -52,8 +55,11 @@ const AppointmentForm = () => {
       message,
       appointmnet_By: id.toString(),
       payment: true,
+      age,
+      gender,
+      phoneNumber,
     };
-    // console.log(userData);
+    console.log(userData);
 
     // register further info
     try {
@@ -143,6 +149,43 @@ const AppointmentForm = () => {
                           min={1}
                           handleChange={handleInput}
                           placeholder="Please select hour"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Age */}
+                    <div className="col-lg-6 mb-2">
+                      <div className="form-group ">
+                        <FormRow
+                          type="number"
+                          name="age"
+                          value={age}
+                          handleChange={handleInput}
+                          placeholder="Age"
+                        />
+                      </div>
+                    </div>
+                    {/* Gender */}
+                    <div className="col-lg-6 mb-2">
+                      <div className="form-group ">
+                        <FormRow
+                          type="text"
+                          name="gender"
+                          value={gender}
+                          handleChange={handleInput}
+                          placeholder="Gender"
+                        />
+                      </div>
+                    </div>
+                    {/* Phone Number*/}
+                    <div className="col-lg-6 mb-2">
+                      <div className="form-group ">
+                        <FormRow
+                          type="number"
+                          name="phoneNumber"
+                          value={phoneNumber}
+                          handleChange={handleInput}
+                          placeholder="Contact Number"
                         />
                       </div>
                     </div>
