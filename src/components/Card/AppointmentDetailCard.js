@@ -24,6 +24,7 @@ const AppointmentDetailCard = ({
   const [showModel, setShowModel] = useState(false);
   const [IsTodayMeet, setIsTodayMeet] = useState(false);
   const [fetchedAppoitmentDetail, setFetchedAppoitmentDetail] = useState([]);
+  const [counseleeName, setCounseleeName] = useState("");
   const navigate = useNavigate();
   const { handleChange, handleError } = useAppContext();
 
@@ -41,7 +42,10 @@ const AppointmentDetailCard = ({
           response = await getAppointmentByCounseleeId(
             `GetAppointmentByCounselleeId?counselleeId=${id}`
           );
-          // response = await getCounseleeById(id);
+
+          const counselee = await getCounseleeById(id);
+          console.log(counselee.data[0].counseleeName);
+          setCounseleeName(counselee.data[0].counseleeName);
         } else {
           response = await getAppointmentCounsellorDetail(id);
         }
@@ -109,7 +113,7 @@ const AppointmentDetailCard = ({
         <img
           src={`https://dummyimage.com/400x400/2be3e0/595959&text=${
             isCounselor
-              ? fetchedAppoitmentDetail?.counselee_Id?.slice(0, 1)
+              ? counseleeName.slice(0, 1)
               : fetchedAppoitmentDetail?.name?.slice(0, 1)
           }`}
           alt=""
@@ -118,9 +122,7 @@ const AppointmentDetailCard = ({
         <div className="mx-2">
           <h6>
             Counselee ID : {""}
-            {isCounselor
-              ? fetchedAppoitmentDetail?.counselee_Id
-              : fetchedAppoitmentDetail?.name}
+            {isCounselor ? counseleeName : fetchedAppoitmentDetail?.name}
           </h6>
           {/* {console.log({ fetchedAppoitmentDetail })} */}
           {isCounselor && <h6>Age : {fetchedAppoitmentDetail.age}</h6>}
