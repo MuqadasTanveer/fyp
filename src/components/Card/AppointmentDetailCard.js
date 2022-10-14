@@ -47,7 +47,7 @@ const AppointmentDetailCard = ({
         }
         const { data } = response;
         setFetchedAppoitmentDetail(data[0]);
-        // console.log(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
         // console.log(error.response.data);
@@ -109,7 +109,7 @@ const AppointmentDetailCard = ({
         <img
           src={`https://dummyimage.com/400x400/2be3e0/595959&text=${
             isCounselor
-              ? fetchedAppoitmentDetail?.counseleeName?.slice(0, 1)
+              ? fetchedAppoitmentDetail?.counselee_Id?.slice(0, 1)
               : fetchedAppoitmentDetail?.name?.slice(0, 1)
           }`}
           alt=""
@@ -119,7 +119,7 @@ const AppointmentDetailCard = ({
           <h6>
             Counselee ID : {""}
             {isCounselor
-              ? fetchedAppoitmentDetail?.id
+              ? fetchedAppoitmentDetail?.counselee_Id
               : fetchedAppoitmentDetail?.name}
           </h6>
           {/* {console.log({ fetchedAppoitmentDetail })} */}
