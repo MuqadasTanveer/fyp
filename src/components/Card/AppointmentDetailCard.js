@@ -9,6 +9,7 @@ import {
   dellAppointmentbyId,
   getAppointmentCounsellorDetail,
   getCounseleeById,
+  getAppointmentByCounseleeId,
 } from "../../api";
 
 const AppointmentDetailCard = ({
@@ -37,7 +38,10 @@ const AppointmentDetailCard = ({
       try {
         let response;
         if (isCounselor) {
-          response = await getCounseleeById(id);
+          response = await getAppointmentByCounseleeId(
+            `GetAppointmentByCounselleeId?counselleeId=${id}`
+          );
+          // response = await getCounseleeById(id);
         } else {
           response = await getAppointmentCounsellorDetail(id);
         }
@@ -113,10 +117,14 @@ const AppointmentDetailCard = ({
         />
         <div className="mx-2">
           <h6>
+            Counselee ID : {""}
             {isCounselor
-              ? fetchedAppoitmentDetail?.counseleeName
+              ? fetchedAppoitmentDetail?.id
               : fetchedAppoitmentDetail?.name}
           </h6>
+          {/* {console.log({ fetchedAppoitmentDetail })} */}
+          {isCounselor && <h6>Age : {fetchedAppoitmentDetail.age}</h6>}
+          {isCounselor && <h6>Gender : {fetchedAppoitmentDetail.gender}</h6>}
           <h6>{date}</h6>
           {!isCounselor && (
             <h6>Domain :{fetchedAppoitmentDetail?.domain}</h6>

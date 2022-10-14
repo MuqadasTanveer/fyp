@@ -57,7 +57,7 @@ const AppointmentForm = () => {
       payment: true,
       age,
       gender,
-      phoneNumber,
+      number: phoneNumber,
     };
     console.log(userData);
 
@@ -71,8 +71,8 @@ const AppointmentForm = () => {
         navigate("/profile-page");
       }, 2000);
     } catch (err) {
-      setAppointmentFormSent("");
       console.log(err);
+      setAppointmentFormSent("");
       const { errors } = err.response.data;
       let error;
       if (errors) {

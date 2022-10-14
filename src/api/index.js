@@ -47,6 +47,8 @@ export const bookAppointment = async (formValues) =>
   api.post("BookAppointment", formValues);
 export const getAppointmentById = async (formValues) =>
   api.get(`BookAppointment/${formValues}`);
+export const getAppointmentByCounseleeId = async (formValues) =>
+  api.get(`BookAppointment/${formValues}`);
 export const getAppointmentCounsellorDetail = async (id) =>
   api.get(`BookAppointment/${id}`);
 export const dellAppointmentbyId = async (id) =>
