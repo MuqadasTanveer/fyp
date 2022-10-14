@@ -121,12 +121,15 @@ const AppointmentDetailCard = ({
         />
         <div className="mx-2">
           <h6>
-            Counselee ID : {""}
+            Name : {""}
             {isCounselor ? counseleeName : fetchedAppoitmentDetail?.name}
           </h6>
           {/* {console.log({ fetchedAppoitmentDetail })} */}
           {isCounselor && <h6>Age : {fetchedAppoitmentDetail.age}</h6>}
           {isCounselor && <h6>Gender : {fetchedAppoitmentDetail.gender}</h6>}
+          {isCounselor && (
+            <h6>phone Number : {fetchedAppoitmentDetail.number}</h6>
+          )}
           <h6>{date}</h6>
           {!isCounselor && (
             <h6>Domain :{fetchedAppoitmentDetail?.domain}</h6>
