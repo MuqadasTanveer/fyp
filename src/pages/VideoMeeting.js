@@ -12,8 +12,8 @@ const VideoMeeting = () => {
   const {
     type,
     meetingEmail,
-    counseleeName,
     meetingCounsellorId,
+    meetingCounsellor,
     counseleeId,
   } = useAppContext();
   const navigate = useNavigate();
@@ -32,10 +32,10 @@ const VideoMeeting = () => {
       const meetingData = {
         counsellorEmail: meetingEmail,
         subject: "Counsultaion Meeting",
-        message: `Today is your Counsultation meeting with : ${counseleeName}. click on link to start ${meetingId}.`,
+        message: `Today is your Counsultation meeting with : ${meetingCounsellor}. click on link to start ${meetingId}.`,
       };
       console.log(meetingData);
-      const sendMeetingIdToCounselee = async () => {
+      const sendMeetingIdToCounsellor = async () => {
         try {
           const { data } = await sendEmail(
             `Email/SendEmail?toEmail=${meetingData.counsellorEmail}&subject=${meetingData.subject}&message=${meetingData.message}`
@@ -45,7 +45,7 @@ const VideoMeeting = () => {
           console.log(error);
         }
       };
-      sendMeetingIdToCounselee();
+      sendMeetingIdToCounsellor();
     }
   }, [meetingId]);
 

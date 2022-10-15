@@ -9,7 +9,7 @@ if (profile?.counsellorsId) {
 
 const initialState = {
   id: profile?.counsellorsId || profile?.id || "",
-  counsellorsId: profile?.counsellorsId || profile?.id || "",
+  counsellorsId: profile?.counsellorsId || "",
   counsellorMeetingID: "",
   counseleeMeetingID: "",
   name: "",

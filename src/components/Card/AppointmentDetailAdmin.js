@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { dellAppointmentbyId } from "../../api";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -13,19 +13,23 @@ const AppointmentDetailAdmin = ({
   counselee_Name,
   counsellors_Id,
   counsellors_Name,
+  appointmentHandler,
   date,
   message,
+  age,
+  gender,
+  number,
   payment,
 }) => {
   const [delShowModel, setDelShowModel] = useState(false);
   const handleCloseDelModel = () => setDelShowModel(false);
   const handleShowDelModel = () => setDelShowModel(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const deleteCounseleeHandler = async (id) => {
-    const { data } = await dellAppointmentbyId(id);
-    console.log(data);
-    navigate("/");
+    await dellAppointmentbyId(id);
+    // console.log(data);
+    appointmentHandler();
   };
 
   const Row = ({ name, value }) => {
@@ -44,6 +48,9 @@ const AppointmentDetailAdmin = ({
       <Row name="Counsellor Name" value={counsellors_Name} />
       <Row name="Counsellor Id" value={counsellors_Id} />
       <Row name="Appointment Date" value={date} />
+      <Row name="Age" value={age} />
+      <Row name="Gender" value={gender} />
+      <Row name="Phone Number" value={number} />
       <Row name="Message" value={message} />
       {/* Delete Button */}
       <Button

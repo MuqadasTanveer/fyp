@@ -6,25 +6,26 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 import { delCounseleeById } from "../../api";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const CounseleeDetailAdmin = ({
   counseleeId,
   counseleeName,
   counseleeEmail,
+  counseleeHandler,
   counseleePhoneNumber,
   counseleeImage,
 }) => {
   const [delShowModel, setDelShowModel] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleCloseDelModel = () => setDelShowModel(false);
   const handleShowDelModel = () => setDelShowModel(true);
 
   const deleteCounseleeHandler = async (id) => {
-    const { data } = await delCounseleeById(id);
+    await delCounseleeById(id);
     // console.log(data);
-    navigate("/");
+    counseleeHandler();
   };
 
   return (

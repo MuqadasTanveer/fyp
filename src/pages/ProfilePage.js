@@ -6,11 +6,7 @@ import "./ProfilePage.css";
 // import appointmentData from "../util/data/appointmentData.json";
 import AppointmentDetailCard from "../components/Card/AppointmentDetailCard";
 import { Link } from "react-router-dom";
-import {
-  getAppointmentById,
-  getCounseleeById,
-  getCounsellorById,
-} from "../api";
+import { getCounseleeById, getCounsellorById, getAllAppointment } from "../api";
 
 const ProfilePage = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -47,39 +43,6 @@ const ProfilePage = () => {
     .slice(0, 13);
 
   useEffect(() => {
-    const getAppointmentData = async (id) => {
-      try {
-        let response;
-        if (type === "Counselor") {
-          response = await getAppointmentById(
-            `GetAppointmentByCounsellorId?counsellorId=${id}`
-          );
-          // console.log(response);
-        } else {
-          response = await getAppointmentById(
-            `GetAppointmentByCounselleeId?counselleeId=${id}`
-          );
-        }
-
-        const { data } = response;
-
-        // console.log(data);
-        const getLatestData = data.filter((d) => d.date >= localISOTime);
-        setFetchedCommingAppoitmentData(getLatestData);
-        const getOldData = data.filter((d) => d.date < localISOTime);
-        setFetchedHistoryAppoitmentData(getOldData);
-        // console.log(getLatestData);
-        // console.log(getOldData);
-      } catch (error) {
-        console.log(error);
-        console.log(error.response.data);
-        handleError(error.response.data);
-      }
-    };
-    getAppointmentData(id);
-  }, [id]);
-
-  useEffect(() => {
     if (type === "Counselor") {
       setIsCounselor(true);
     }
@@ -87,6 +50,36 @@ const ProfilePage = () => {
       setIsCounselor(false);
     }
   }, [type]);
+
+  useEffect(() => {
+    const fetchAllApointments = async () => {
+      const { data } = await getAllAppointment();
+      let appointments;
+      // console.log(data);
+      if (isCounselor) {
+        // console.log(id);
+        appointments = data.filter((item) => item.counsellors_Id === id);
+      } else {
+        // console.log(id);
+        appointments = data.filter((item) => {
+          return item.counselee_Id === id.toString();
+        });
+      }
+      // console.log(appointments);
+
+      const getLatestData = appointments.filter((data) => {
+        return data.date >= localISOTime;
+      });
+      // console.log(getLatestData);
+      setFetchedCommingAppoitmentData(getLatestData);
+
+      const getOldData = appointments.filter((d) => d.date < localISOTime);
+      // console.log(getOldData);
+      setFetchedHistoryAppoitmentData(getOldData);
+    };
+
+    fetchAllApointments();
+  }, [id, isCounselor, localISOTime]);
 
   const getProfile = useCallback(async () => {
     try {
@@ -154,6 +147,10 @@ const ProfilePage = () => {
           </div>
         </div>
       </section>
+
+      {/* /////////////////////////////// */}
+      {/* Detail */}
+
       <div className="my-5 profile-content ">
         <div className="profile-personal">
           <h3>{isCounselor ? "Counselor Detail" : "Counselee Detail"}</h3>
@@ -173,6 +170,7 @@ const ProfilePage = () => {
             name="User Email"
             value={isCounselor ? counsellorsEmail : counseleeEmail}
           />
+
           {isCounselor && (
             <>
               <Row
@@ -218,6 +216,10 @@ const ProfilePage = () => {
           )}
         </div>
       </div>
+
+      {/* /////////////////////////////// */}
+      {/* History */}
+
       <div className="history text-center my-5">
         <Button variant="light" onClick={() => setModalShow(true)}>
           Show History
@@ -236,12 +238,13 @@ const ProfilePage = () => {
                 fetchedHistoryAppoitmentData.map((data) => {
                   return (
                     <div key={data.id} className="history-card">
-                      <h6>
-                        {isCounselor ? "Counselee ID" : "Counsellor Id"} :{" "}
-                        {isCounselor ? data.counselee_Id : data.counsellorsId}
-                      </h6>
+                      <h6>Counselee Name : {data.counselee_Name}</h6>
+                      <h6>Counsellor Name : {data.counsellors_Name}</h6>
+                      <h6>Date : {data.date}</h6>
                       <h6>Appointment ID : {data.id}</h6>
-                      <p> Date : {data.date}</p>
+                      <h6> Gender : {data.gender}</h6>
+                      <h6>Age : {data.age}</h6>
+                      <p>{data.message}</p>
                     </div>
                   );
                 })}

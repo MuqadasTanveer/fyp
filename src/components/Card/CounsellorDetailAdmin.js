@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import "./CounsellorDetailAdmin.css";
 import { delCounsellorById } from "../../api";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const CounsellorDetailAdmin = ({
   counsellorsId,
@@ -21,10 +21,11 @@ const CounsellorDetailAdmin = ({
   counsellorsCountry,
   counsellorsHourlyRate,
   counsellorsDomain,
+  counsellorHandler,
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const [delShowModel, setDelShowModel] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const Row = ({ name, value }) => {
     return (
@@ -89,9 +90,9 @@ const CounsellorDetailAdmin = ({
   const handleShowDelModel = () => setDelShowModel(true);
 
   const deleteCounsellorHandler = async (id) => {
-    const { data } = await delCounsellorById(id);
+    await delCounsellorById(id);
     // console.log(data);
-    navigate("/");
+    counsellorHandler();
   };
 
   return (

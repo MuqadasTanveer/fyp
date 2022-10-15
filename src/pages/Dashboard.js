@@ -11,6 +11,9 @@ const Dashboard = () => {
   const [fetchedCounsellors, setFetchedCounsellors] = useState([]);
   const [fetchedCounselees, setFetchedCounselees] = useState([]);
   const [fetchedAllAppointment, setFetchedAllAppointment] = useState([]);
+  const [counsellorChange, setCounsellorChange] = useState(false);
+  const [counseleeChange, setCounseleeChange] = useState(false);
+  const [appointmentChange, setAppointmentChange] = useState(false);
   const { error, handleError } = useAppContext();
 
   // get all Counselors from Backend
@@ -26,7 +29,7 @@ const Dashboard = () => {
       }
     };
     fetchAllCounsellors();
-  }, []);
+  }, [counsellorChange]);
 
   // get all Counselees from Backend
   useEffect(() => {
@@ -41,7 +44,7 @@ const Dashboard = () => {
       }
     };
     fetchAllCounselees();
-  }, []);
+  }, [counseleeChange]);
   // get all Appointment from Backend
   useEffect(() => {
     const fetchAllApointments = async () => {
@@ -55,7 +58,7 @@ const Dashboard = () => {
       }
     };
     fetchAllApointments();
-  }, []);
+  }, [appointmentChange]);
 
   return (
     <div className="detail">
@@ -65,7 +68,11 @@ const Dashboard = () => {
         <div className="counsellor-detail">
           {fetchedCounsellors &&
             fetchedCounsellors.map((data) => (
-              <CounsellorDetailAdmin key={data.counsellorsId} {...data} />
+              <CounsellorDetailAdmin
+                key={data.counsellorsId}
+                {...data}
+                counsellorHandler={() => setCounsellorChange(!counsellorChange)}
+              />
             ))}
         </div>
       </div>
@@ -74,7 +81,11 @@ const Dashboard = () => {
         <div className="counselee-detail">
           {fetchedCounselees &&
             fetchedCounselees.map((data) => (
-              <CounseleeDetailAdmin key={data.counseleeId} {...data} />
+              <CounseleeDetailAdmin
+                key={data.counseleeId}
+                {...data}
+                counseleeHandler={() => setCounseleeChange(!counseleeChange)}
+              />
             ))}
         </div>
       </div>
@@ -83,7 +94,13 @@ const Dashboard = () => {
         <div className="counselee-detail">
           {fetchedAllAppointment &&
             fetchedAllAppointment.map((data) => (
-              <AppointmentDetailAdmin key={data.id} {...data} />
+              <AppointmentDetailAdmin
+                key={data.id}
+                {...data}
+                appointmentHandler={() =>
+                  setAppointmentChange(!appointmentChange)
+                }
+              />
             ))}
         </div>
       </div>

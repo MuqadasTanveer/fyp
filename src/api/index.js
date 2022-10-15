@@ -49,7 +49,7 @@ export const getAppointmentById = async (formValues) =>
   api.get(`BookAppointment/${formValues}`);
 export const getAppointmentByCounseleeId = async (formValues) =>
   api.get(`BookAppointment/${formValues}`);
-export const getAppointmentCounsellorDetail = async (id) =>
+export const getAppointmentCounsellorId = async (id) =>
   api.get(`BookAppointment/${id}`);
 export const dellAppointmentbyId = async (id) =>
   api.delete(`BookAppointment/${id}`);

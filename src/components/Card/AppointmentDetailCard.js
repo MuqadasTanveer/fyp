@@ -5,71 +5,52 @@ import Modal from "react-bootstrap/Modal";
 
 import { useAppContext } from "../../context/appContext";
 import "./AppointmentDetailCard.css";
-import {
-  dellAppointmentbyId,
-  getAppointmentCounsellorDetail,
-  getCounseleeById,
-  getAppointmentByCounseleeId,
-} from "../../api";
+import { dellAppointmentbyId, getAppointmentCounsellorId } from "../../api";
 
 const AppointmentDetailCard = ({
-  counsellorsId,
-  counselee_Id,
-  date,
   id,
+  counselee_Id,
+  counselee_Name,
+  counsellors_Id,
+  counsellors_Name,
+  date,
   message,
+  age,
+  gender,
+  number,
   isCounselor,
   localISOTime,
 }) => {
   const [showModel, setShowModel] = useState(false);
   const [IsTodayMeet, setIsTodayMeet] = useState(false);
-  const [fetchedAppoitmentDetail, setFetchedAppoitmentDetail] = useState([]);
-  const [counseleeName, setCounseleeName] = useState("");
+  const [counsellorData, setCounsellorData] = useState([]);
   const navigate = useNavigate();
-  const { handleChange, handleError } = useAppContext();
+  const { handleChange } = useAppContext();
 
   const deleteAppintmentHandler = async (id) => {
-    const { data } = await dellAppointmentbyId(id);
+    await dellAppointmentbyId(id);
     // console.log(data);
     navigate("/counselors");
   };
 
   useEffect(() => {
-    const getAppointmentDetail = async (id) => {
+    const getCounsellorData = async (id) => {
       try {
-        let response;
-        if (isCounselor) {
-          response = await getAppointmentByCounseleeId(
-            `GetAppointmentByCounselleeId?counselleeId=${id}`
-          );
-
-          const counselee = await getCounseleeById(id);
-          console.log(counselee.data[0].counseleeName);
-          setCounseleeName(counselee.data[0].counseleeName);
-        } else {
-          response = await getAppointmentCounsellorDetail(id);
-        }
-        const { data } = response;
-        setFetchedAppoitmentDetail(data[0]);
-        console.log(data);
+        const { data } = await getAppointmentCounsellorId(id);
+        setCounsellorData(data[0]);
+        // console.log(data);
       } catch (error) {
         console.log(error);
-        // console.log(error.response.data);
-        handleError(error.response.data);
       }
     };
-    if (isCounselor) {
-      getAppointmentDetail(counselee_Id);
-    } else {
-      getAppointmentDetail(counsellorsId);
-    }
-  }, [counsellorsId, counselee_Id, isCounselor, handleError]);
+    getCounsellorData(counsellors_Id);
+  }, [counsellors_Id]);
 
   // ///////////////
   //// function to check is today meeting
   useEffect(() => {
     if (localISOTime === date.slice(0, 13)) return setIsTodayMeet(true);
-  }, [date]);
+  }, [date, localISOTime]);
 
   const handleCloseModel = () => setShowModel(false);
   const handleShowModel = () => setShowModel(true);
@@ -77,15 +58,15 @@ const AppointmentDetailCard = ({
   const meetingHandler = () => {
     handleChange({
       name: "meetingCounsellor",
-      value: fetchedAppoitmentDetail.name,
+      value: counsellors_Name,
     });
     handleChange({
       name: "meetingEmail",
-      value: fetchedAppoitmentDetail.email,
+      value: counsellorData.email,
     });
     handleChange({
       name: "meetingCounsellorId",
-      value: fetchedAppoitmentDetail.counsellorsId,
+      value: counsellors_Id,
     });
     navigate("/video-meeting");
   };
@@ -113,8 +94,8 @@ const AppointmentDetailCard = ({
         <img
           src={`https://dummyimage.com/400x400/2be3e0/595959&text=${
             isCounselor
-              ? counseleeName.slice(0, 1)
-              : fetchedAppoitmentDetail?.name?.slice(0, 1)
+              ? counselee_Name?.slice(0, 1)
+              : counsellors_Name?.slice(0, 1)
           }`}
           alt=""
           style={{ width: "50px", height: "100%", borderRadius: "50%" }}
@@ -122,18 +103,15 @@ const AppointmentDetailCard = ({
         <div className="mx-2">
           <h6>
             Name : {""}
-            {isCounselor ? counseleeName : fetchedAppoitmentDetail?.name}
+            {isCounselor ? counselee_Name : counsellors_Name}
           </h6>
           {/* {console.log({ fetchedAppoitmentDetail })} */}
-          {isCounselor && <h6>Age : {fetchedAppoitmentDetail.age}</h6>}
-          {isCounselor && <h6>Gender : {fetchedAppoitmentDetail.gender}</h6>}
-          {isCounselor && (
-            <h6>phone Number : {fetchedAppoitmentDetail.number}</h6>
-          )}
-          <h6>{date}</h6>
-          {!isCounselor && (
-            <h6>Domain :{fetchedAppoitmentDetail?.domain}</h6>
-          )}{" "}
+          {!isCounselor && <h6>{counsellorData.email}</h6>}
+          {isCounselor && <h6>Age : {age}</h6>}
+          {isCounselor && <h6>Gender : {gender}</h6>}
+          {isCounselor && <h6>phone Number : {number}</h6>}
+          <h6>Date : {date}</h6>
+
           <p>{message.slice(0, 100)}</p>
         </div>
       </div>
